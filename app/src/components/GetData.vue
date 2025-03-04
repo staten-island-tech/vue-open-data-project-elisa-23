@@ -1,9 +1,14 @@
 <template>
-  <GetData />
+    <div>
+
+    </div>
 </template>
 
 <script setup>
-import GetData from '@/components/GetData.vue';
+
+async function getData() {
+    
+}
 </script>
 
 <style scoped>
