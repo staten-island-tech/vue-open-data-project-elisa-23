@@ -1,11 +1,9 @@
 <template>
-    <div>
-
-    </div>
+    <getData />
 </template>
 
 <script setup>
-
+import getData from '@/components/GetData.vue';
 </script>
 
 <style scoped>
