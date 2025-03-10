@@ -7,13 +7,14 @@ async function getData() {
         if (response.status != 200) {       /* 200 = it works */
             throw new Error(response);
         } else {
+            data = [];
             data = await response.json();
-            console.log(data);
         }
     } catch (error) {
         console.log(error);
         alert("Apologies, the data has been lost. Please reboot.")
     }
 }
+getData();
 
 export { getData, data };

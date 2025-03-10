@@ -1,17 +1,17 @@
 <template>
-        <div v-if="randNames" class="flex flex-wrap flex-row">
-        <div class="w-[50%] h-screen bg-[#e2d3cd]">
-            <h1>{{ randNames[0] }}</h1>
-        </div>
-        <div class="w-[50%] h-screen bg-[#f5f5dc]">
-            <h1>{{ randNames[1] }}</h1>
+        <div v-if="loaded" class="flex flex-wrap flex-row">
+        <button class="btn w-[50%] h-screen bg-[#e2d3cd] shadow-none border-none">
+            <h1 class="text-5xl text-[#615049] font-extrabold">{{ randNames[0].nm }}</h1>
+        </button>
+        <div class="btn w-[50%] h-screen bg-[#f5f5dc] shadow-none border-none">
+            <h1 class="text-5xl text-[#615049] font-extrabold">{{ randNames[1].nm }}</h1>
         </div>
     </div>
 </template>
 
 <script setup>
-import {data} from '@/components/functions/getData.js';
-import { onMounted, reactive } from 'vue';
+import { data, getData } from '@/components/functions/getData.js';
+import { onMounted, reactive, ref } from 'vue';
 
 let randNames = reactive([]);
 const genders = ["FEMALE", "MALE"];
@@ -33,7 +33,10 @@ function getRandNames() {
     console.log(randNames);
 }
 
+let loaded = ref(false);
 onMounted(() => {
+    getData();
+    loaded.value = true;
     getRandNames();
 });
 
