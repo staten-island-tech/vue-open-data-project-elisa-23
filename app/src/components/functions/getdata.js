@@ -8,6 +8,7 @@ async function getData() {
             throw new Error(response);
         } else {
             data = await response.json();
+            console.log(data);
         }
     } catch (error) {
         console.log(error);
