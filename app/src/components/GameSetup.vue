@@ -1,16 +1,16 @@
 <template>
     <div v-if="loaded" class="flex flex-wrap flex-row h-full w-full">
-        <NameOptions v-if="randomSelected" v-for="name in randNames" :name="name" :key="name.nm" />
+        <NameOptions v-for="name in randNames" :name="name" :key="name.nm" />
     </div>
 </template>
 
 <script setup>
 import { data, getData } from '@/components/functions/getdata.js';
 import { onMounted, reactive, ref } from 'vue';
-import { selected, update, randNames } from './functions/selection';
+import { selected, selectedNames } from './functions/selection';
 import NameOptions from '@/components/NameOptions.vue';
 
-let selectedNames = reactive([]);
+let randNames = reactive([]);
 const genders = ["FEMALE", "MALE"];
 function getRandNames() {
     const length = data.length;
@@ -20,23 +20,22 @@ function getRandNames() {
         let rand = Math.floor(Math.random() * (length-1));
         console.log(rand);
         console.log(data[rand]);
-        if (selectedNames.includes(data[rand]) === false){
+        if (randNames.includes(data[rand]) === false){
             if ((data[rand]).gndr === gender) {
-                selectedNames.push(data[rand]);
+                randNames.push(data[rand]);
             }
         }
         
     }
-    randNames = selectedNames;
+    selectedNames.value = randNames;
+    console.log(selectedNames.value);
 }
 
 let loaded = ref(false);
-let randomSelected = ref(false);
 onMounted(async() => {
     await getData();
     loaded.value = true;
-    await getRandNames();
-    randomSelected.value = true;
+    getRandNames();
 });
 
 </script>

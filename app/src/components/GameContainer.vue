@@ -4,10 +4,26 @@
 
 <script setup>
 import GameSetup from '@/components/GameSetup.vue';
-import { watch } from 'vue';
+import { selected } from './functions/selection.js';
+import { watch, ref } from 'vue';
 
-let gameInProgress = true;
-let gameEnded = false;
+let gameInProgress = ref(true);
+let gameEnded = ref(false);
+
+function updateValues(){
+    if (gameInProgress.value === true) {
+        gameInProgress.value = false;
+        gameEnded.value = true;
+    } else {
+        gameInProgress.value = true;
+        gameEnded.value = false;
+    }
+}
+
+watch(selected, () => {
+    updateValues();
+});
+
 
 </script>
 

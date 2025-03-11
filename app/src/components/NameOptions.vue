@@ -13,6 +13,7 @@
 </template>
 
 <script setup>
+import { update } from './functions/selection.js';
 defineProps({
     name: Object,
 })

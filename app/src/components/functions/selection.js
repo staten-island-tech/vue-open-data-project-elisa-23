@@ -1,11 +1,11 @@
 import { reactive } from "vue";
 
 let selected = reactive([]);
-let randNames = reactive([]);
+let selectedNames = reactive([]);
 
 function update(value) {
     selected = value;
 }
 
 
-export { selected, update, randNames };
+export { selected, update, selectedNames };
