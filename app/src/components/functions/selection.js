@@ -4,7 +4,8 @@ let selected = reactive([]);
 let selectedNames = reactive([]);
 
 function update(value) {
-    selected = value;
+    selected.length = 0;
+    selected.push(value);
 }
 
 

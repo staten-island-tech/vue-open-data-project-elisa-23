@@ -5,10 +5,10 @@
 <script setup>
 import GameSetup from '@/components/GameSetup.vue';
 import { selected } from './functions/selection.js';
-import { watch, ref } from 'vue';
+import { watch, ref, onMounted } from 'vue';
 
-let gameInProgress = ref(true);
-let gameEnded = ref(false);
+const gameInProgress = ref(true);
+const gameEnded = ref(false);
 
 function updateValues(){
     if (gameInProgress.value === true) {
@@ -19,6 +19,11 @@ function updateValues(){
         gameEnded.value = false;
     }
 }
+
+onMounted(() => {
+    gameInProgress.value = true;
+    gameEnded.value = false;
+})
 
 watch(selected, () => {
     updateValues();

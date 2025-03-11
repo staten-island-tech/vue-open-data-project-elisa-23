@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded" class="flex flex-wrap flex-row h-full w-full">
+    <div class="flex flex-wrap flex-row h-full w-full">
         <NameOptions v-for="name in randNames" :name="name" :key="name.nm" />
     </div>
 </template>
@@ -18,8 +18,6 @@ function getRandNames() {
     let gender = genders[genderRand];
     while ( randNames.length !== 2 ){
         let rand = Math.floor(Math.random() * (length-1));
-        console.log(rand);
-        console.log(data[rand]);
         if (randNames.includes(data[rand]) === false){
             if ((data[rand]).gndr === gender) {
                 randNames.push(data[rand]);
@@ -27,14 +25,14 @@ function getRandNames() {
         }
         
     }
-    selectedNames.value = randNames;
-    console.log(selectedNames.value);
+    selectedNames.length = 0;
+    for (name in randNames) {
+        selectedNames.push(name);
+    }
 }
 
-let loaded = ref(false);
 onMounted(async() => {
     await getData();
-    loaded.value = true;
     getRandNames();
 });
 
