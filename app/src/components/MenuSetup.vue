@@ -16,12 +16,6 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-import { getData } from '@/components/functions/getData.js';
-import { onMounted } from 'vue';
-
-onMounted(() => {
-  getData();
-})
 </script>
 
 <style scoped>

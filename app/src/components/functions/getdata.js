@@ -15,6 +15,4 @@ async function getData() {
         alert("Apologies, the data has been lost. Please reboot.")
     }
 }
-getData();
-
 export { getData, data };
