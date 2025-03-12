@@ -1,9 +1,11 @@
 <template>
     <GameSetup v-if="gameInProgress" />
+    <ResultsContainer v-if="gameEnded"/>
 </template>
 
 <script setup>
 import GameSetup from '@/components/GameSetup.vue';
+import ResultsContainer from './ResultsContainer.vue';
 import { selected } from './functions/selection.js';
 import { watch, ref, onMounted } from 'vue';
 
