@@ -6,7 +6,7 @@
             <div class="w-[50%] text-center">{{ name.ethcty }}</div>
             <div class="text-[0.8rem] montserrat text-right w-[25%]">ethnicity</div>
         </div>
-        <button @click="update(name)" class="bg-[#f3eae0] hover:bg-[#a0d8ef] h-[15%] w-[110%] rounded-full flex flex-row items-center pl-[5%] pr-[5%]">
+        <button @click="update(name.nm)" class="bg-[#f3eae0] hover:bg-[#a0d8ef] h-[15%] w-[110%] rounded-full flex flex-row items-center pl-[5%] pr-[5%]">
             <div class="text-[1rem] montserrat text-center w-full">SELECT</div>
         </button>
     </div>
@@ -20,5 +20,12 @@ defineProps({
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
+.montserrat {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
 </style>

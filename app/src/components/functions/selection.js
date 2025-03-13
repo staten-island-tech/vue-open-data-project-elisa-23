@@ -1,11 +1,10 @@
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
-let selected = reactive([]);
+let selected = ref('');
 let selectedNames = reactive([]);
 
 function update(value) {
-    selected.length = 0;
-    selected.push(value);
+    selected.value = value;
 }
 
 
