@@ -7,6 +7,11 @@
                 <ResultsText v-for="name in selectedNames" :name="name" :key="name.nm" />
                 <br>
                 <h2 class="text-2xl montserrat text-center pt-8">SCORE: {{ score }}</h2>
+                <h4 class="text-sm montserrat text-center font-extralight">HIGH SCORE: {{ highScore }}</h4>
+                <br>
+                <div class="flex flex-wrap flex-col items-center w-full">
+                    <button @click="selected = ''" class="btn bg-[#f6f2ef]">CONTINUE</button>
+                </div>
             </div>
         </div>
     </div>
@@ -14,7 +19,7 @@
 
 <script setup>
 import { selected, selectedNames } from './functions/selection';
-import { score } from './functions/otherVar.js';
+import { score, highScore } from './functions/otherVar.js';
 import ResultsText from './ResultsText.vue';
 import { ref, onMounted } from 'vue';
 
@@ -29,7 +34,7 @@ function calc() {
             max = name.cnt;
             rank = name.rnk;
         } else if (name.cnt === max) {
-            if (name.rnk > rank) {
+            if (name.rnk < rank) {
                 betterName = name.nm;
                 max = name.cnt;
                 rank = name.rnk;
@@ -39,6 +44,9 @@ function calc() {
     if (betterName === selected.value) {
         results.value = 'WIN';
         score.value ++;
+        if (score.value > highScore.value) {
+            highScore.value = score.value;
+        }
     } else {
         results.value = 'LOSE';
         score.value = 0;

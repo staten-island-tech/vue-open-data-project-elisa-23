@@ -3,14 +3,17 @@
         <div class="tooltip-content bg-transparent">
             <div class="animate-bounce text-[#352f46] text-[0.625rem] font-black">Go Back</div>
         </div>
-        <button class="w-full h-full">
+        <RouterLink to="/">
+            <button class="w-full h-full">
             <img src="/back.png" alt="Back Button" class="place-self-center h-[90%] w-[55%]">
-        </button>
+            </button>
+        </RouterLink>
     </div>
+    <RouterView />
 </template>
 
 <script setup>
-
+import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <style scoped>
