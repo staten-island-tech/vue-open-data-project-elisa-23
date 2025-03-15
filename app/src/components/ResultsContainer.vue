@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-screen flex">
-        <div class="w-[75%] h-[70%] bg-[#f6f2ef] self-center justify-self-center m-auto rounded-md p-3">
+        <div class="w-[75%] h-[70%] bg-[#f6f2ef] self-center justify-self-center m-auto rounded-md p-3 flex flex-wrap">
             <div class="text-left text-[#352f46] place-self-start w-[35%]">
                 <h2 class="text-4xl montserrat text-center pt-8">YOU {{ results }}!</h2>
                 <br>
@@ -13,6 +13,9 @@
                     <button @click="selected = ''" class="btn bg-[#f6f2ef]">CONTINUE</button>
                 </div>
             </div>
+            <div class="w-[65%]">
+                <SelectedChart />
+            </div>
         </div>
     </div>
 </template>
@@ -21,6 +24,7 @@
 import { selected, selectedNames } from './functions/selection';
 import { score, highScore } from './functions/otherVar.js';
 import ResultsText from './ResultsText.vue';
+import SelectedChart from './SelectedChart.vue';
 import { ref, onMounted } from 'vue';
 
 const results = ref('');
