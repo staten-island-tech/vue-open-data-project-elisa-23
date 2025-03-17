@@ -10,7 +10,7 @@
                 <h4 class="text-sm montserrat text-center font-extralight">HIGH SCORE: {{ highScore }}</h4>
                 <br>
                 <div class="flex flex-wrap flex-col items-center w-full">
-                    <button @click="selected = ''" class="btn bg-[#f6f2ef]">CONTINUE</button>
+                    <button @click="selected = ''" class="btn bg-[#f6f2ef] text-[#352f46]">CONTINUE</button>
                 </div>
             </div>
             <div class="w-[65%]">
