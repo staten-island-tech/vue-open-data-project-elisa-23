@@ -86,15 +86,15 @@ function refreshData(option) {
     }
 }
 
-watch(selectedChart.value, () => {
+watch(selectedChart, () => {
     refreshData('chart');
 });
 
-watch(selectedEth.value, () => {
+watch(selectedEth, () => {
     refreshData('eth');
 });
 
-watch(selectedName.value, () => {
+watch(selectedName, () => {
     refreshData('name');
 });
 
