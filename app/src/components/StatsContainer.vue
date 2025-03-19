@@ -9,16 +9,16 @@
             <button @click="clear" class="relative bottom-[25%] right-[-89.5%] montserrat font-thin text-sm btn bg-[#cdc0b0] hover:bg-[#cee5ed] w-[10%] h-[30%] border-0 shadow-none">clear</button>
         </div>
     </div>
-    <div class="h-[96%] w-[32%] bg-[#f6f2ef] rounded-md absolute left-[1%] top-[2%]">
-
+    <div class="h-[96%] w-[32%] bg-[#f6f2ef] rounded-md absolute left-[1%] top-[2%] p-[1%]">
+        <BarChart v-if="barSelected" :chart-data="barData" :key="barData" class="self-center h-[98%] w-[98%]" />
     </div>
     <div class="h-[24%] w-[65%] bg-[#f6f2ef] rounded-md absolute right-[1%] bottom-[2%] flex flex-wrap flex-row text-[#352f46]">
         <div class="bg-[#e9e9e2] m-[2%] pt-[3%] h-[82%] w-[23%] rounded-md flex flex-col flex-wrap justify-items-center items-center">
-            <button @click="selectedChart = 'PIE'" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
+            <button @click="selectedChart = 'PIE'; barSelected = false" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
                 <p>PIE</p>
             </button>
             <br>
-            <button @click="selectedChart = 'BAR'" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
+            <button @click="selectedChart = 'BAR'; barSelected = true" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
                 <p>BAR</p>
             </button>
         </div>
@@ -44,8 +44,8 @@
 </template>
 
 <script setup>
-import { getData,getFilteredData, filteredData } from './functions/getdata.js';
-import { onMounted, ref, watch } from 'vue';
+import { getData,getFilteredData, filteredData, data } from './functions/getdata.js';
+import { onMounted, ref, watch, reactive } from 'vue';
 import NameButton from './NameButton.vue';
 import BarChart from './BarChart.vue';
 import PieChart from './PieChart.vue';
@@ -54,9 +54,46 @@ const selectedName = ref('');
 const selectedChart = ref('');
 const selectedEth = ref('');
 const loaded = ref(false);
+
 const nameSelected = ref(false);
 const chartSelected = ref(false);
 const ethSelected = ref(false);
+const barSelected = ref(false);
+
+const barData = reactive({
+  labels: [],
+  datasets: [
+  ],
+});
+
+function getResultantData() {
+    barData.labels = [];
+    barData.datasets = [];
+    let label = '';
+    let resultantData = [];
+    if (selectedName.value !== '') {
+        label += (' ' + selectedName.value);
+        let fillerData = data.filter((name) => name.nm === selectedName.value);
+        resultantData = fillerData;
+    } 
+    if (selectedEth.value !== '') {
+        label += (' ' + selectedEth.value);
+        if (resultantData.length !== 0) {
+            resultantData = resultantData.filter((name) => name.ethcty === selectedEth.value);
+        } else {
+            resultantData = data.filter((name) => name.ethcty === selectedEth.value);
+        }
+    }
+    barData.labels.push(label);
+    resultantData.forEach((name) => {barData.datasets.push(
+        {
+            label: `${name.ethcty} COUNT`,
+            data: [name.cnt],
+            backgroundColor: "#cdc0b0",
+            borderWidth: 0,
+        }
+    )});
+}
 
 function clear() {
     selectedName.value = '';
@@ -65,6 +102,7 @@ function clear() {
     nameSelected.value = false;
     chartSelected.value = false;
     ethSelected.value = false;
+    barSelected.value = false;
 }
 
 function refreshData(option) {
@@ -97,6 +135,10 @@ watch(selectedEth, () => {
 watch(selectedName, () => {
     refreshData('name');
 });
+
+watch([selectedEth, selectedName], () => {
+    getResultantData();
+})
 
 onMounted(async() => {
     await getData();
