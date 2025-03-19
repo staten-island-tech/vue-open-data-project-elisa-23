@@ -45,25 +45,64 @@
 
 <script setup>
 import { getData,getFilteredData, filteredData } from './functions/getdata.js';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import NameButton from './NameButton.vue';
+import BarChart from './BarChart.vue';
+import PieChart from './PieChart.vue';
 
 const selectedName = ref('');
 const selectedChart = ref('');
 const selectedEth = ref('');
 const loaded = ref(false);
+const nameSelected = ref(false);
+const chartSelected = ref(false);
+const ethSelected = ref(false);
+
+function clear() {
+    selectedName.value = '';
+    selectedChart.value = '';
+    selectedEth.value = '';
+    nameSelected.value = false;
+    chartSelected.value = false;
+    ethSelected.value = false;
+}
+
+function refreshData(option) {
+    if (option === 'name') {
+        nameSelected.value = true;
+        if (selectedName.value === '') {
+            nameSelected.value = false;
+        }
+    } else if (option === 'chart') {
+        chartSelected.value = true;
+        if (selectedChart.value === '') {
+            chartSelected.value = false;
+        }
+    } else {
+        ethSelected.value = true;
+        if (selectedEth.value === '') {
+            ethSelected.value = false;
+        }
+    }
+}
+
+watch(selectedChart.value, () => {
+    refreshData('chart');
+});
+
+watch(selectedEth.value, () => {
+    refreshData('eth');
+});
+
+watch(selectedName.value, () => {
+    refreshData('name');
+});
 
 onMounted(async() => {
     await getData();
     await getFilteredData('nm');
     loaded.value = true;
 });
-
-function clear() {
-    selectedName.value = '';
-    selectedChart.value = '';
-    selectedEth.value = '';
-}
 
 </script>
 

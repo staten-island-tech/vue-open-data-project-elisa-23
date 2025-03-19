@@ -29,7 +29,3 @@ defineProps({
   chartData: Object
 });
 </script>
-
-<style scoped>
-
-</style>
