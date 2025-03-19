@@ -56,7 +56,6 @@ const selectedEth = ref('');
 const loaded = ref(false);
 
 const nameSelected = ref(false);
-const chartSelected = ref(false);
 const ethSelected = ref(false);
 const barSelected = ref(false);
 
@@ -100,7 +99,6 @@ function clear() {
     selectedChart.value = '';
     selectedEth.value = '';
     nameSelected.value = false;
-    chartSelected.value = false;
     ethSelected.value = false;
     barSelected.value = false;
 }
@@ -111,11 +109,6 @@ function refreshData(option) {
         if (selectedName.value === '') {
             nameSelected.value = false;
         }
-    } else if (option === 'chart') {
-        chartSelected.value = true;
-        if (selectedChart.value === '') {
-            chartSelected.value = false;
-        }
     } else {
         ethSelected.value = true;
         if (selectedEth.value === '') {
@@ -123,10 +116,6 @@ function refreshData(option) {
         }
     }
 }
-
-watch(selectedChart, () => {
-    refreshData('chart');
-});
 
 watch(selectedEth, () => {
     refreshData('eth');
