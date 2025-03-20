@@ -152,6 +152,7 @@ function clear() {
     nameSelected.value = false;
     ethSelected.value = false;
     BarSelected.value = false;
+    PieSelected.value = false;
 }
 
 function refreshData(option) {
