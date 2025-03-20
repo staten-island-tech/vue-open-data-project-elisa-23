@@ -17,15 +17,11 @@ LinearScale,
 } from "chart.js";
 import { reactive } from "vue";
 
-const chartOptions = reactive({
-responsive: true,
-maintainAspectRatio: false,
-});
-
 /* Register required Chart.js components */
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 defineProps({
-  chartData: Object
+  chartData: Object, 
+  chartOptions: Object
 });
 </script>

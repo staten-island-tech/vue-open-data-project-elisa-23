@@ -10,15 +10,15 @@
         </div>
     </div>
     <div class="h-[96%] w-[32%] bg-[#f6f2ef] rounded-md absolute left-[1%] top-[2%] p-[1%]">
-        <BarChart v-if="barSelected" :chart-data="barData" :key="barData" class="self-center h-[98%] w-[98%]" />
+        <BarChart :key="chartKey" v-if="BarSelected" :chart-data="barData" :chart-options="barOptions" class="self-center h-[98%] w-[98%]" />
     </div>
     <div class="h-[24%] w-[65%] bg-[#f6f2ef] rounded-md absolute right-[1%] bottom-[2%] flex flex-wrap flex-row text-[#352f46]">
         <div class="bg-[#e9e9e2] m-[2%] pt-[3%] h-[82%] w-[23%] rounded-md flex flex-col flex-wrap justify-items-center items-center">
-            <button @click="selectedChart = 'PIE'; barSelected = false" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
+            <button @click="selectedChart = 'PIE'; BarSelected = false" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
                 <p>PIE</p>
             </button>
             <br>
-            <button @click="selectedChart = 'BAR'; barSelected = true" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
+            <button @click="selectedChart = 'BAR'; BarSelected = true" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
                 <p>BAR</p>
             </button>
         </div>
@@ -57,12 +57,24 @@ const loaded = ref(false);
 
 const nameSelected = ref(false);
 const ethSelected = ref(false);
-const barSelected = ref(false);
+const BarSelected = ref(false);
+
+const chartKey = ref(0);
 
 const barData = reactive({
   labels: [],
   datasets: [
   ],
+});
+
+const barOptions = reactive({
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+    legend: {
+        display: false
+    }
+}
 });
 
 function getResultantData() {
@@ -71,7 +83,7 @@ function getResultantData() {
     let label = '';
     let resultantData = [];
     if (selectedName.value !== '') {
-        label += (' ' + selectedName.value);
+        label += selectedName.value;
         let fillerData = data.filter((name) => name.nm === selectedName.value);
         resultantData = fillerData;
     } 
@@ -84,14 +96,24 @@ function getResultantData() {
         }
     }
     barData.labels.push(label);
-    resultantData.forEach((name) => {barData.datasets.push(
-        {
+    resultantData.forEach((name) => {
+        if (selectedName.value !== '') {
+            barData.datasets.push({
             label: `${name.ethcty} COUNT`,
             data: [name.cnt],
             backgroundColor: "#cdc0b0",
             borderWidth: 0,
+        });
+        } else {
+            barData.datasets.push({
+            label: `${name.nm} COUNT`,
+            data: [name.cnt],
+            backgroundColor: "#cdc0b0",
+            borderWidth: 0,
+        });
         }
-    )});
+    });
+    chartKey.value++;
 }
 
 function clear() {
@@ -100,7 +122,7 @@ function clear() {
     selectedEth.value = '';
     nameSelected.value = false;
     ethSelected.value = false;
-    barSelected.value = false;
+    BarSelected.value = false;
 }
 
 function refreshData(option) {

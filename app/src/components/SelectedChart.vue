@@ -1,6 +1,6 @@
 <template>
   <div class="h-full w-[90%] self-cetner">
-    <BarChart :chart-data="chartData" class="h-full w-full self-center" />
+    <BarChart :chart-data="chartData" :chart-options="chartOptions" class="h-full w-full self-center" />
   </div>
 </template>
 
@@ -8,6 +8,11 @@
 import { reactive } from "vue";
 import BarChart from "./BarChart.vue";
 import { selectedNames } from "./functions/selection";
+
+const chartOptions = reactive({
+responsive: true,
+maintainAspectRatio: false,
+});
 
 const chartData = reactive({
   labels: [selectedNames[0].nm, selectedNames[1].nm],
