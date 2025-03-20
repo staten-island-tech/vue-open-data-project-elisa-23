@@ -11,14 +11,15 @@
     </div>
     <div class="h-[96%] w-[32%] bg-[#f6f2ef] rounded-md absolute left-[1%] top-[2%] p-[1%]">
         <BarChart :key="chartKey" v-if="BarSelected" :chart-data="barData" :chart-options="barOptions" class="self-center h-[98%] w-[98%]" />
+        <PieChart :key="chartKey" v-if="PieSelected" :chart-data="pieData" :chart-options="pieOptions" class="self-center h-[98%] w-[98%]" />
     </div>
     <div class="h-[24%] w-[65%] bg-[#f6f2ef] rounded-md absolute right-[1%] bottom-[2%] flex flex-wrap flex-row text-[#352f46]">
         <div class="bg-[#e9e9e2] m-[2%] pt-[3%] h-[82%] w-[23%] rounded-md flex flex-col flex-wrap justify-items-center items-center">
-            <button @click="selectedChart = 'PIE'; BarSelected = false" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
+            <button @click="selectedChart = 'PIE'; BarSelected = false; PieSelected = true" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
                 <p>PIE</p>
             </button>
             <br>
-            <button @click="selectedChart = 'BAR'; BarSelected = true" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
+            <button @click="selectedChart = 'BAR'; BarSelected = true; PieSelected = false" class="btn border-0 shadow-none bg-[#cdc0b0] hover:bg-[#cee5ed] w-[80%] h-[30%]">
                 <p>BAR</p>
             </button>
         </div>
@@ -57,11 +58,18 @@ const loaded = ref(false);
 
 const nameSelected = ref(false);
 const ethSelected = ref(false);
+const PieSelected = ref(false);
 const BarSelected = ref(false);
 
 const chartKey = ref(0);
 
 const barData = reactive({
+  labels: [],
+  datasets: [
+  ],
+});
+
+const pieData = reactive({
   labels: [],
   datasets: [
   ],
@@ -77,9 +85,20 @@ plugins: {
 }
 });
 
+const pieOptions = reactive({
+responsive: true,
+plugins: {
+    legend: {
+        display: false
+    }
+}
+});
+
 function getResultantData() {
     barData.labels = [];
     barData.datasets = [];
+    pieData.labels = [];
+    pieData.datasets = [];
     let label = '';
     let resultantData = [];
     if (selectedName.value !== '') {
@@ -96,21 +115,31 @@ function getResultantData() {
         }
     }
     barData.labels.push(label);
+    pieData.datasets.push({
+            label: 'COUNT',
+            data: [],
+            backgroundColor: ["#cdc0b0", "#dcae96", "#dbbab6", "#eee3d9"],
+            hoverOffset: 4
+            });
     resultantData.forEach((name) => {
         if (selectedName.value !== '') {
+            pieData.labels.push(`${label} ${name.ethcty} COUNT`);
             barData.datasets.push({
             label: `${name.ethcty} COUNT`,
             data: [name.cnt],
             backgroundColor: "#cdc0b0",
             borderWidth: 0,
-        });
+            });
+            pieData.datasets[0].data.push(name.cnt);
         } else {
+            pieData.labels.push(`${label} ${name.nm} COUNT`);
             barData.datasets.push({
             label: `${name.nm} COUNT`,
             data: [name.cnt],
             backgroundColor: "#cdc0b0",
             borderWidth: 0,
-        });
+            });
+            pieData.datasets[0].data.push(name.cnt);
         }
     });
     chartKey.value++;

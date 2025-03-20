@@ -8,13 +8,9 @@ import { Pie } from "vue-chartjs";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const chartOptions = reactive({
-responsive: true,
-maintainAspectRatio: false,
-});
-
 defineProps({
-  chartData: Object
+  chartData: Object,
+  chartOptions: Object
 });
 </script>
 
