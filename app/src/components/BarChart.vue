@@ -15,7 +15,6 @@ BarElement,
 CategoryScale,
 LinearScale,
 } from "chart.js";
-import { reactive } from "vue";
 
 /* Register required Chart.js components */
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
