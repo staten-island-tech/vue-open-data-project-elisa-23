@@ -25,7 +25,7 @@ import { selected, selectedNames } from './functions/selection';
 import { score, highScore } from './functions/otherVar.js';
 import ResultsText from './ResultsText.vue';
 import SelectedChart from './SelectedChart.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 const results = ref('');
 function calc() {
@@ -62,6 +62,9 @@ onMounted(() => {
     calc();
 })
 
+watch(selected, () => {
+	calc();
+})
 </script>
 
 <style scoped>
