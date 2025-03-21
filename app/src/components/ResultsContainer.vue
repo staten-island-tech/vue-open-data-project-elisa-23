@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="w-[65%]">
-                <SelectedChart />
+                <BarChart :chart-data="chartData" :chart-options="chartOptions" class="h-full w-full self-center" />
             </div>
         </div>
     </div>
@@ -24,8 +24,25 @@
 import { selected, selectedNames } from './functions/selection';
 import { score, highScore } from './functions/otherVar.js';
 import ResultsText from './ResultsText.vue';
-import SelectedChart from './SelectedChart.vue';
-import { ref, onMounted, watch } from 'vue';
+import BarChart from "./BarChart.vue";
+import { ref, onMounted, watch, reactive } from 'vue';
+
+const chartOptions = reactive({
+responsive: true,
+maintainAspectRatio: false,
+});
+
+const chartData = reactive({
+  labels: [selectedNames[0].nm, selectedNames[1].nm],
+  datasets: [
+    {
+      label: "Count",
+      data: [selectedNames[0].cnt, selectedNames[1].cnt],
+      backgroundColor: "#cdc0b0",
+      borderWidth: 0,
+    },
+  ],
+});
 
 const results = ref('');
 function calc() {
@@ -33,17 +50,18 @@ function calc() {
     let rank = 0;
     let betterName = '';
     selectedNames.forEach((name) => {
-        if (name.cnt > max) {
+        if (parseInt(name.cnt) > max) {
             betterName = name.nm;
             max = name.cnt;
             rank = name.rnk;
-        } else if (name.cnt === max) {
+        } else if (parseInt(name.cnt) === max) {
             if (name.rnk < rank) {
                 betterName = name.nm;
                 max = name.cnt;
                 rank = name.rnk;
             } else if (name.rnk === rank) {
 				 betterName = selected.value;
+            }
         }
     });
     if (betterName === selected.value) {
