@@ -42,7 +42,8 @@ function calc() {
                 betterName = name.nm;
                 max = name.cnt;
                 rank = name.rnk;
-            }
+            } else if (name.rnk === rank) {
+								betterName = selected.value;
         }
     });
     if (betterName === selected.value) {
